@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+	
+    <style>
+        body {
+            background-image: url('/images/background.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .profile {
+            width: 100%;
+            max-width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 0.8rem;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-image-wrapper {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+        }
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+        }
+
+        .edit-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transform: translate(5%, 5%);
+            background-color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid black;
+            z-index: 1;
+        }
+
+        #profile_image {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 5vh;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer a {
+            color: white !important;
+            text-decoration: underline;
+            font-size: 0.8rem;
+        }
+
+        .form-control,
+        .form-select,
+        textarea {
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
+        label {
+            font-size: 0.8rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        button.btn {
+            font-size: 0.9rem;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 576px) {
+            .profile-image-wrapper {
+                width: 80px;
+                height: 80px;
+                margin-top: 18px;
+            }
+
+            .edit-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .profile {
+                max-width: 400px;
+            }
+
+            .profile-image-wrapper {
+                width: 90px;
+                height: 90px;
+            }
+
+            h3 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .profile {
+                max-width: 350px;
+            }
+
+            .profile-image-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+
+            h3 {
+                font-size: 1.6rem;
+            }
+        }
+        .tag_button{
+        	font-size:0.7rem;
+        	padding: 3px 7px;
+        	border-radius:20px;
+            border:none;
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile py-3 mb-2" style="margin-top:10vh;">
+    <h3 class="text-center">Create Profile</h3>
+
+    <div class="profile-image-wrapper">
+<img src="/images/profile.jpg" alt="Profile Image" class="profile-image" id="profile-img">
+
+
+
+
+        <label for="profile_image" class="edit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" style="color:black" width="14" height="14" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+            </svg>
+        </label>
+    </div>
+
+    <!-- Form starts here -->
+    <form th:action="@{/create}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="userId" th:value="${userId}" />
+    <!-- First and Last Name -->
+    <div style="display: flex; gap: 10px;">
+        <div class="flex-fill mb-3">
+            <label for="first_name" class="form-label">First Name</label>
+            <input id="first_name" type="text" name="firstName" th:value="${firstName}" placeholder="First name" class="form-control">
+        </div>
+        <div class="flex-fill mb-3">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input id="last_name" type="text" name="lastName" th:value="${lastName}" placeholder="Last name" class="form-control">
+        </div>
+    </div>
+
+
+	<!-- Gender and Date of Birth -->
+    <div style="display: flex; gap: 10px;">
+        <div class="flex-fill">
+            <label for="gender" class="form-label">Gender</label>
+            <select id="gender" name="gender" class="form-select">
+                <option value="" th:selected="${gender == null}">Select</option>
+                <option value="male" th:selected="${gender == 'male'}">Male</option>
+                <option value="female" th:selected="${gender == 'female'}">Female</option>
+            </select>
+        </div>
+        <div class="flex -fill">
+    <label for="cvUpload" class="form-label">Upload CV (.pdf)</label>
+    <input type="file" id="cvUpload" name="cvFile" accept="application/pdf" class="d-none">
+    <div>
+    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('cvUpload').click()"  
+    style="padding-right:2vw;padding-left:2vw;">
+        Choose File
+    </button>
+    </div>
+    <div>
+        <small id="cvFileName" class="text-muted mt-1 d-block">No file chosen</small>
+    </div>
+</div>
+    </div>
+    
+<!-- Predefined Skills (Tag Select) -->
+<div class="">
+<label for="freeSkills" class="form-label">Skills</label>
+    <ul class="list-unstyled d-flex flex-wrap gap-2">
+    <button class="tag_button"><li class="tag">JavaScript</li></button>
+    <button class="tag_button"><li class="tag">C++</li></button>
+    <button class="tag_button"><li class="tag">Java</li></button>
+    <button class="tag_button"><li class="tag">Python</li></button>
+    <button class="tag_button"><li class="tag">React</li></button>
+    <button class="tag_button"><li class="tag">C</li></button>
+    <button class="tag_button"><li class="tag">HTML</li></button>
+    <button class="tag_button"><li class="tag">CSS</li></button>
+    <button class="tag_button"><li class="tag">Spring</li></button>
+    <button class="tag_button"><li class="tag">Node.js</li></button>
+    <button class="tag_button"><li class="tag">Angular</li></button>
+    <button class="tag_button"><li class="tag">Vue.js</li></button>
+    <button class="tag_button"><li class="tag">PHP</li></button>
+    <button class="tag_button"><li class="tag">Laravel</li></button>
+    <button class="tag_button"><li class="tag">Django</li></button>
+    <button class="tag_button"><li class="tag">Flask</li></button>
+    <button class="tag_button"><li class="tag">Kotlin</li></button>
+    <button class="tag_button"><li class="tag">Swift</li></button>
+    <button class="tag_button"><li class="tag">MySQL</li></button>
+    <button class="tag_button"><li class="tag">PostgreSQL</li></button>
+    <button class="tag_button"><li class="tag">MongoDB</li></button>
+    <button class="tag_button"><li class="tag">AWS</li></button>
+    <button class="tag_button"><li class="tag">Docker</li></button>
+    <button class="tag_button"><li class="tag">Git</li></button>
+    <button class="tag_button"><li class="tag">TypeScript</li></button>
+</ul>
+    <textarea class="form-control" id="freeSkills" name="freeSkills" rows="3" placeholder="Add custom tags (e.g. Assembly; XML; Unity;)"></textarea>
+
+</div>
+
+
+
+<!-- Portfolio -->
+<div class="mb-3">
+    <label class="form-label">Portfolio Links</label>
+    <div id="portfolioLinks">
+       <div class="d-flex mb-2 align-items-center">
+    <input type="url" name="portfolioLinks[0].url" class="form-control me-2" placeholder="https://example.com">
+    <input type="text" name="portfolioLinks[0].description" class="form-control me-2" placeholder="Description">
+    <button type="button" class="btn btn-outline-danger btn-sm remove-portfolio-btn" onclick="removePortfolioLink(this)" title="Remove this link">
+        <i class="fas fa-minus"></i>
+    </button>
+</div>
+
+
+    </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addPortfolioLink()">+ Add Another Link</button>
+</div>
+
+    <button class="btn btn-primary w-100">Save</button>
+</form>
+
+
+    <div class="d-flex justify-content-center align-items-center mt-2">
+        <a href="#">Skip for now</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <ul>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Developers</a></li>
+        <li><a href="index.php">Home</a></li>
+    </ul>
+</div>
+
+<script>
+    document.getElementById('cvUpload').addEventListener('change', function() {
+        const fileName = this.files[0]?.name || 'No file chosen';
+        document.getElementById('cvFileName').textContent = fileName;
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function addPortfolioLink() {
+    const container = document.getElementById('portfolioLinks');
+    const currentCount = container.children.length;
+
+    const newLinkDiv = document.createElement('div');
+    newLinkDiv.className = 'd-flex mb-2 align-items-center';
+
+    const urlInput = document.createElement('input');
+    urlInput.type = 'url';
+    urlInput.name = `portfolioLinks[${currentCount}].url`;
+    urlInput.placeholder = 'https://example.com';
+    urlInput.className = 'form-control me-2';
+
+    const descInput = document.createElement('input');
+    descInput.type = 'text';
+    descInput.name = `portfolioLinks[${currentCount}].description`;
+    descInput.placeholder = 'Description';
+    descInput.className = 'form-control me-2';
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn btn-outline-danger btn-sm remove-portfolio-btn';
+    removeBtn.innerHTML = '<i class="fas fa-minus"></i>';
+    removeBtn.title = 'Remove this link';
+    removeBtn.onclick = function() {
+        container.removeChild(newLinkDiv);
+        updatePortfolioNames();
+        toggleRemoveButtons();
+    };
+
+    newLinkDiv.appendChild(urlInput);
+    newLinkDiv.appendChild(descInput);
+    newLinkDiv.appendChild(removeBtn);
+
+    container.appendChild(newLinkDiv);
+
+    updatePortfolioNames();
+    toggleRemoveButtons();
+}
+
+function removePortfolioLink(button) {
+    const container = document.getElementById('portfolioLinks');
+    const divToRemove = button.parentElement;
+    container.removeChild(divToRemove);
+    updatePortfolioNames();
+    toggleRemoveButtons();
+}
+
+function updatePortfolioNames() {
+    const container = document.getElementById('portfolioLinks');
+    const children = container.children;
+    for (let i = 0; i < children.length; i++) {
+        const inputs = children[i].querySelectorAll('input');
+        inputs[0].name = `portfolioLinks[${i}].url`;
+        inputs[1].name = `portfolioLinks[${i}].description`;
+    }
+}
+
+// This function will enable remove buttons only if there are 2 or more links
+function toggleRemoveButtons() {
+    const container = document.getElementById('portfolioLinks');
+    const removeButtons = container.querySelectorAll('.remove-portfolio-btn');
+    if (removeButtons.length <= 1) {
+        // Hide or disable all remove buttons if only one link
+        removeButtons.forEach(btn => btn.style.display = 'none');
+    } else {
+        // Show all remove buttons if 2 or more links
+        removeButtons.forEach(btn => btn.style.display = 'inline-block');
+    }
+}
+
+// Initial call to set button visibility on page load
+window.onload = toggleRemoveButtons;
+
+</script>
+
+
+</body>
+</html>
