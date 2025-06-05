@@ -102,8 +102,8 @@
           ></button>
         </div>
         <div class="modal-body">
-			<form th:action="@{/create_project}" method="POST" id="projectForm">
-			<input type="hidden" name="userId" th:value="${userId}" />
+          <form th:action="@{/create_project}" method="POST" id="projectForm">
+            <input type="hidden" name="userId" id="userIdInput" value="" />
             <div
               class="mb-3 d-flex align-items-center justify-content-between"
               style="gap: 1rem"
@@ -207,6 +207,7 @@
                   name="subcategory"
                   required
                   style="font-size: 0.9rem"
+                  disabled
                 ></select>
               </div>
             </div>
@@ -232,6 +233,7 @@
                   name="maxPrice"
                   style="font-size: 0.9rem; width: 8vw"
                   min="0"
+                  step="0.01"
                 />
               </div>
             </div>
@@ -359,120 +361,140 @@
       "Flask",
       "Kotlin",
       "Swift",
-      "MySQL",
-      "PostgreSQL",
-      "MongoDB",
-      "AWS",
-      "Docker",
-      "Git",
+      "Angular",
       "TypeScript",
     ];
 
-    // Fill Project Category Select
+    // DOM elements
     const categorySelect = document.getElementById("category");
-    Object.entries(ProjectCategory).forEach(([key, value]) => {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = value;
-      categorySelect.appendChild(option);
-    });
-
-    // Fill Payment Type Select
-    const paymentTypeSelect = document.getElementById("paymentType");
-    Object.entries(PaymentMethod).forEach(([key, value]) => {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = value;
-      paymentTypeSelect.appendChild(option);
-    });
-
-    // Fill Estimated Duration Select
-    const durationSelect = document.getElementById("estimatedDuration");
-    Object.entries(EstimatedDuration).forEach(([key, value]) => {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = value;
-      durationSelect.appendChild(option);
-    });
-
-    // Handle Subcategory Select based on chosen Category
     const subcategorySelect = document.getElementById("subcategory");
+    const paymentTypeSelect = document.getElementById("paymentType");
+    const estimatedDurationSelect = document.getElementById("estimatedDuration");
+    const technologyTagsContainer = document.getElementById("technologyTags");
+    const selectedTechnologiesInput = document.getElementById("selectedTechnologies");
+    const projectPrivateCheckbox = document.getElementById("projectPrivate");
+    const visibilityIcon = document.getElementById("visibilityIcon");
+    const visibilityLabel = document.getElementById("visibilityLabel");
+    const userIdInput = document.getElementById("userIdInput");
+
+    // Populate dropdown helper function
+    function populateSelect(selectElement, options, defaultValue = null) {
+      selectElement.innerHTML = "";
+      for (const [key, value] of Object.entries(options)) {
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = value;
+        selectElement.appendChild(option);
+      }
+      if (defaultValue && selectElement.querySelector(`option[value="${defaultValue}"]`)) {
+        selectElement.value = defaultValue;
+      } else {
+        selectElement.selectedIndex = 0;
+      }
+    }
+
+    // Populate category select
+    populateSelect(categorySelect, ProjectCategory);
+
+    // Populate payment type select
+    populateSelect(paymentTypeSelect, PaymentMethod);
+
+    // Populate estimated duration select
+    populateSelect(estimatedDurationSelect, EstimatedDuration, "UNKNOWN");
+
+    // Populate subcategories based on category
     function populateSubcategories(categoryKey) {
-      // Clear existing options
-      subcategorySelect.innerHTML = "";
       if (!categoryKey || !ProjectSubcategory[categoryKey]) {
-        // If no valid category, disable subcategory select
+        subcategorySelect.innerHTML = "";
         subcategorySelect.disabled = true;
         return;
       }
       subcategorySelect.disabled = false;
-      ProjectSubcategory[categoryKey].forEach((subcat) => {
+      const subcategories = ProjectSubcategory[categoryKey];
+      subcategorySelect.innerHTML = "";
+      subcategories.forEach((subcat) => {
         const option = document.createElement("option");
         option.value = subcat;
         option.textContent = subcat;
         subcategorySelect.appendChild(option);
       });
+      subcategorySelect.selectedIndex = 0;
     }
-    categorySelect.addEventListener("change", (e) => {
-      populateSubcategories(e.target.value);
+
+    // When category changes, update subcategories
+    categorySelect.addEventListener("change", () => {
+      populateSubcategories(categorySelect.value);
     });
 
-    // Initially disable subcategory until category chosen
-    populateSubcategories(categorySelect.value);
+    // Initialize subcategories with the first category on page load
+    if (categorySelect.options.length > 0) {
+      categorySelect.selectedIndex = 0;
+      populateSubcategories(categorySelect.value);
+    }
 
-    // Suggested Technologies tags
-    const techTagsContainer = document.getElementById("technologyTags");
-    const selectedTechInput = document.getElementById("selectedTechnologies");
-    let selectedTechnologies = [];
-
-    function renderTechTags() {
-      techTagsContainer.innerHTML = "";
+    // Populate technology tags
+    function createTechnologyTags() {
+      technologyTagsContainer.innerHTML = "";
       SuggestedTechnologies.forEach((tech) => {
-        const tagBtn = document.createElement("button");
-        tagBtn.type = "button";
-        tagBtn.className = "tag_button";
-        if (selectedTechnologies.includes(tech)) {
-          tagBtn.classList.add("selected");
-        }
-        tagBtn.textContent = tech;
-        tagBtn.addEventListener("click", () => {
-          if (selectedTechnologies.includes(tech)) {
-            selectedTechnologies = selectedTechnologies.filter((t) => t !== tech);
-          } else {
-            selectedTechnologies.push(tech);
-          }
-          selectedTechInput.value = selectedTechnologies.join(",");
-          renderTechTags();
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "tag_button";
+        button.innerHTML = `<span class="tag-text">${tech}</span> <span class="close-icon" style="display:none;">×</span>`;
+        button.title = `Click to select/deselect ${tech}`;
+
+        button.addEventListener("click", () => {
+          button.classList.toggle("selected");
+          updateSelectedTechnologies();
         });
-        techTagsContainer.appendChild(tagBtn);
+
+        technologyTagsContainer.appendChild(button);
       });
     }
-    renderTechTags();
 
-    // Visibility toggle icon update
-    const privateCheckbox = document.getElementById("projectPrivate");
-    const visibilityIcon = document.getElementById("visibilityIcon");
-    const visibilityLabel = document.getElementById("visibilityLabel");
+    // Update hidden input with selected technologies
+    function updateSelectedTechnologies() {
+      const selected = [];
+      technologyTagsContainer.querySelectorAll(".tag_button.selected").forEach((btn) => {
+        selected.push(btn.querySelector(".tag-text").textContent);
+      });
+      selectedTechnologiesInput.value = selected.join(",");
+    }
 
-    privateCheckbox.addEventListener("change", () => {
-      if (privateCheckbox.checked) {
+    createTechnologyTags();
+
+    // Toggle public/private icon and label on checkbox change
+    projectPrivateCheckbox.addEventListener("change", () => {
+      if (projectPrivateCheckbox.checked) {
+        // Locked icon
         visibilityIcon.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16" style="color: gray">
-            <path d="M8 1a3 3 0 0 0-3 3v3h6V4a3 3 0 0 0-3-3z"/>
-            <path d="M4 8h8v5.5A1.5 1.5 0 0 1 10.5 15h-5A1.5 1.5 0 0 1 4 13.5V8z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16" style="color: black;">
+            <path d="M8 1a2 2 0 0 0-2 2v3h4V3a2 2 0 0 0-2-2zM3.5 6h9a.5.5 0 0 1 .5.5v7a2.5 2.5 0 0 1-5 0v-7a.5.5 0 0 1 .5-.5z"/>
           </svg>`;
+        visibilityLabel.style.color = "black";
         visibilityLabel.textContent = "Private";
       } else {
+        // Unlocked icon
         visibilityIcon.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16" style="color: gray">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16" style="color: gray;">
             <path fill-rule="evenodd" d="M12 0a4 4 0 0 1 4 4v2.5h-1V4a3 3 0 1 0-6 0v2h.5A2.5 2.5 0 0 1 12 8.5v5A2.5 2.5 0 0 1 9.5 16h-7A2.5 2.5 0 0 1 0 13.5v-5A2.5 2.5 0 0 1 2.5 6H8V4a4 4 0 0 1 4-4"/>
           </svg>`;
+        visibilityLabel.style.color = "gray";
         visibilityLabel.textContent = "Public";
       }
     });
-    
-    
- 
+
+    // On page load, read userId from URL and assign it to the hidden input
+    function getUserIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("userId");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const userIdFromUrl = getUserIdFromUrl();
+      if (userIdFromUrl) {
+        userIdInput.value = userIdFromUrl;
+      }
+    });
   </script>
 </body>
 </html>

@@ -39,11 +39,7 @@ public class PageController {
     public String createProfileDev() {
         return "create_profile_dev";
     }
-    
-    @GetMapping("/client_dashboard")
-    public String clientDashboard() {
-        return "client_dashboard";
-    }
+
     
 }
 

@@ -43,11 +43,12 @@ public class ProfileController {
 
         profileRepository.save(profile);
 
-        return "redirect:/client_dashboard";
+        return "redirect:/client_dashboard?userId=" + userId;
     }
 
     @GetMapping("/create_profile")
     public String showProfileForm(@RequestParam("userId") Long userId, Model model) {
+        System.out.println("User id: "+userId);
         model.addAttribute("userId", userId);
         return "create_profile";
     }
