@@ -1,28 +1,31 @@
 package com.example.devFlow.project;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.example.devFlow.profile.Profile;
-import com.example.devFlow.profile.ProfileRequest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
 @Service
-@Transactional
 public class ProjectService {
+	
+@Autowired
+    private final ProjectRepository projectRepository;
 
-    private final ProjectRepository repo;
-
-    public ProjectService(ProjectRepository repo) {
-        this.repo = repo;
+    public ProjectService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
-    public Project saveProject(ProjectRequest request) {
-    	Project project = new Project();
-    	project.setTitle(request.title());
-    	project.setDescription(request.description());
-    	project.setPrivate(request.isPrivate());
-    	project.setShowDevPrice(request.showDevPrice());
+    public List<Project> getProjects() {
+        return projectRepository.findAll();
+    }
+
+    public Project createProject(ProjectRequest request) {
+        Project project = new Project();
+        project.setTitle(request.title());
+        project.setDescription(request.description());
+        project.setPrivate(request.isPrivate());
+        project.setShowDevPrice(request.showDevPrice());
         project.setCategory(request.category());
         project.setSubcategory(request.subcategory());
         project.setPaymentMethod(request.paymentMethod());
@@ -30,10 +33,7 @@ public class ProjectService {
         project.setEstimatedDuration(request.estimatedDuration());
         project.setOfferDurationDays(request.offerDurationDays());
         project.setSuggestedTechnologies(request.suggestedTechnologies());
-        return repo.save(project);
+        return projectRepository.save(project);
     }
 
-    public List<Project> getAllProjects() {
-        return repo.findAll();
-    }
 }
