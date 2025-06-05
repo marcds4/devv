@@ -22,12 +22,54 @@
       padding: 0;
       box-sizing: border-box;
     }
+    #sign_in:hover {
+            background-color: transparent;
+            color: white;
+        }
 
+        #sign_in {
+            padding: 0;
+            border: none;
+        }
+        .sign {
+            border: 1px solid white;
+            font-size: 0.8em;
+        }
+        #search {
+            font-size: 0.74rem;
+            width: 13vw;
+            height: 35px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            background-color: transparent;
+            color: white;
+        }
+
+        #search::placeholder {
+            color: white;
+            opacity: 1;
+        }
+
+        #search_button {
+            height: 35px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border: 1px solid white;
+            font-size: 0.8em;
+        }
     html,
     body {
       height: 100%;
       font-family: "Inter", sans-serif;
     }
+    body {
+            background-image: url('/images/background.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+        }
 
     input.form-control {
       font-size: 0.9rem;
@@ -72,10 +114,68 @@
     label.form-label {
       font-size: 0.9rem !important;
     }
+    .nav-link:focus,
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    .navbar {
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+        }    
+     
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.3rem;
+        }
+
+        .nav-link {
+            color: white;
+            font-size: 1em;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus {
+            color: white;
+        }
+
   </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
+  <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary navbar-dark bg-transparent pe-4 ps-4 pt-4">  <div class="container-fluid">
+    <a class="navbar-brand pe-2" href="#" style="color:white;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-brilliance me-1" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7"/>
+        </svg>
+        <span >DevFlow</span>
+    </a>
+    <button  class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Developers</a>
+            </li>
+        </ul>
+        <form class="d-flex me-3" role="search">
+            <input id="search" class="form-control" type="search" placeholder="Search projects or developers..." aria-label="Search">
+            <button id="search_button" class="btn btn-outline-light me-2" type="submit">Search</button>
+        </form>
+        <!-- <?php if (!$isLoggedIn): ?> -->
+        <button id="sign_in" class="btn btn-outline-light me-2 sign" type="submit" onclick="window.location.href='login.php'">Log out</button>
+        <!--  <?php endif; ?>-->
+        <!-- <?php if ($isLoggedIn): ?>
+            <button id="log_out" class="btn btn-outline-light sign" type="submit" onclick="window.location.href='logout.php'">Log out</button>
+        <?php endif; ?> -->
+    </div>
+</div>
+</nav>
   <button
     class="btn btn-primary"
     data-bs-toggle="modal"

@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-	
+
     <style>
         body {
             background-image: url('/images/background.jpg');
@@ -161,12 +161,40 @@
                 font-size: 1.6rem;
             }
         }
-        .tag_button{
-        	font-size:0.7rem;
-        	padding: 3px 7px;
-        	border-radius:20px;
-            border:none;
+
+        /* Updated tag button styles */
+        .tag_button {
+            font-size: 0.7rem;
+            padding: 3px 7px;
+            border-radius: 20px;
+            border: none;
             background-color: #e0e0e0;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: black;
+        }
+
+        .tag_button.selected {
+            background-color: black;
+            color: white;
+        }
+
+        .tag_button.selected .close-icon {
+            display: inline;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .close-icon {
+            display: none;
+            font-size: 1rem;
+            line-height: 1;
+            user-select: none;
         }
     </style>
 </head>
@@ -176,10 +204,7 @@
     <h3 class="text-center">Create Profile</h3>
 
     <div class="profile-image-wrapper">
-<img src="/images/profile.jpg" alt="Profile Image" class="profile-image" id="profile-img">
-
-
-
+        <img src="/images/profile.jpg" alt="Profile Image" class="profile-image" id="profile-img">
 
         <label for="profile_image" class="edit-icon">
             <svg xmlns="http://www.w3.org/2000/svg" style="color:black" width="14" height="14" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
@@ -190,200 +215,102 @@
 
     <!-- Form starts here -->
     <form th:action="@{/create}" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="userId" th:value="${userId}" />
-    <!-- First and Last Name -->
-    <div style="display: flex; gap: 10px;">
-        <div class="flex-fill mb-3">
-            <label for="first_name" class="form-label">First Name</label>
-            <input id="first_name" type="text" name="firstName" th:value="${firstName}" placeholder="First name" class="form-control">
+        <input type="hidden" name="userId" th:value="${userId}" />
+        <!-- First and Last Name -->
+        <div style="display: flex; gap: 10px;">
+            <div class="flex-fill mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input id="first_name" type="text" name="firstName" th:value="${firstName}" placeholder="First name" class="form-control">
+            </div>
+            <div class="flex-fill mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input id="last_name" type="text" name="lastName" th:value="${lastName}" placeholder="Last name" class="form-control">
+            </div>
         </div>
-        <div class="flex-fill mb-3">
-            <label for="last_name" class="form-label">Last Name</label>
-            <input id="last_name" type="text" name="lastName" th:value="${lastName}" placeholder="Last name" class="form-control">
+
+        <!-- Gender and Date of Birth -->
+        <div style="display: flex; gap: 10px;">
+            <div class="flex-fill">
+                <label for="gender" class="form-label">Gender</label>
+                <select id="gender" name="gender" class="form-select">
+                    <option value="" th:selected="${gender == null}">Select</option>
+                    <option value="male" th:selected="${gender == 'male'}">Male</option>
+                    <option value="female" th:selected="${gender == 'female'}">Female</option>
+                </select>
+            </div>
+            <div class="flex -fill">
+                <label for="cvUpload" class="form-label">Upload CV (.pdf)</label>
+                <input type="file" id="cvUpload" name="cvFile" accept="application/pdf" class="d-none">
+                <div>
+                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('cvUpload').click()"  
+                    style="font-size: 0.7rem;">Upload CV</button>
+                </div>
+            </div>
         </div>
-    </div>
 
-
-	<!-- Gender and Date of Birth -->
-    <div style="display: flex; gap: 10px;">
-        <div class="flex-fill">
-            <label for="gender" class="form-label">Gender</label>
-            <select id="gender" name="gender" class="form-select">
-                <option value="" th:selected="${gender == null}">Select</option>
-                <option value="male" th:selected="${gender == 'male'}">Male</option>
-                <option value="female" th:selected="${gender == 'female'}">Female</option>
-            </select>
+        <!-- Skills tags -->
+        <div class="mt-3 mb-3">
+            <label class="form-label">Skills</label>
+            <ul class="list-unstyled d-flex flex-wrap gap-2" id="skillsList" style="padding-left: 0;">
+                <button type="button" class="tag_button">JavaScript<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">C++<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Java<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Python<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">React<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">C<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">HTML<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">CSS<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Spring<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Node.js<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Angular<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Vue.js<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">PHP<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Laravel<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Django<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Flask<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Kotlin<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Swift<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">MySQL<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">PostgreSQL<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">MongoDB<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">AWS<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Docker<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">Git<span class="close-icon">&times;</span></button>
+                <button type="button" class="tag_button">TypeScript<span class="close-icon">&times;</span></button>
+            </ul>
         </div>
-        <div class="flex -fill">
-    <label for="cvUpload" class="form-label">Upload CV (.pdf)</label>
-    <input type="file" id="cvUpload" name="cvFile" accept="application/pdf" class="d-none">
-    <div>
-    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('cvUpload').click()"  
-    style="padding-right:2vw;padding-left:2vw;">
-        Choose File
-    </button>
-    </div>
-    <div>
-        <small id="cvFileName" class="text-muted mt-1 d-block">No file chosen</small>
-    </div>
-</div>
-    </div>
-    
-<!-- Predefined Skills (Tag Select) -->
-<div class="">
-<label for="freeSkills" class="form-label">Skills</label>
-    <ul class="list-unstyled d-flex flex-wrap gap-2">
-    <button class="tag_button"><li class="tag">JavaScript</li></button>
-    <button class="tag_button"><li class="tag">C++</li></button>
-    <button class="tag_button"><li class="tag">Java</li></button>
-    <button class="tag_button"><li class="tag">Python</li></button>
-    <button class="tag_button"><li class="tag">React</li></button>
-    <button class="tag_button"><li class="tag">C</li></button>
-    <button class="tag_button"><li class="tag">HTML</li></button>
-    <button class="tag_button"><li class="tag">CSS</li></button>
-    <button class="tag_button"><li class="tag">Spring</li></button>
-    <button class="tag_button"><li class="tag">Node.js</li></button>
-    <button class="tag_button"><li class="tag">Angular</li></button>
-    <button class="tag_button"><li class="tag">Vue.js</li></button>
-    <button class="tag_button"><li class="tag">PHP</li></button>
-    <button class="tag_button"><li class="tag">Laravel</li></button>
-    <button class="tag_button"><li class="tag">Django</li></button>
-    <button class="tag_button"><li class="tag">Flask</li></button>
-    <button class="tag_button"><li class="tag">Kotlin</li></button>
-    <button class="tag_button"><li class="tag">Swift</li></button>
-    <button class="tag_button"><li class="tag">MySQL</li></button>
-    <button class="tag_button"><li class="tag">PostgreSQL</li></button>
-    <button class="tag_button"><li class="tag">MongoDB</li></button>
-    <button class="tag_button"><li class="tag">AWS</li></button>
-    <button class="tag_button"><li class="tag">Docker</li></button>
-    <button class="tag_button"><li class="tag">Git</li></button>
-    <button class="tag_button"><li class="tag">TypeScript</li></button>
-</ul>
-    <textarea class="form-control" id="freeSkills" name="freeSkills" rows="3" placeholder="Add custom tags (e.g. Assembly; XML; Unity;)"></textarea>
 
+        <!-- Textarea for additional info -->
+        <div class="mb-3">
+            <label for="bio" class="form-label">About yourself</label>
+            <textarea id="bio" name="bio" placeholder="Add about yourself (optional)" class="form-control" rows="5" style="resize: none;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-dark w-100">Create Profile</button>
+    </form>
 </div>
 
-
-
-<!-- Portfolio -->
-<div class="mb-3">
-    <label class="form-label">Portfolio Links</label>
-    <div id="portfolioLinks">
-       <div class="d-flex mb-2 align-items-center">
-    <input type="url" name="portfolioLinks[0].url" class="form-control me-2" placeholder="https://example.com">
-    <input type="text" name="portfolioLinks[0].description" class="form-control me-2" placeholder="Description">
-    <button type="button" class="btn btn-outline-danger btn-sm remove-portfolio-btn" onclick="removePortfolioLink(this)" title="Remove this link">
-        <i class="fas fa-minus"></i>
-    </button>
-</div>
-
-
-    </div>
-    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addPortfolioLink()">+ Add Another Link</button>
-</div>
-
-    <button class="btn btn-primary w-100">Save</button>
-</form>
-
-
-    <div class="d-flex justify-content-center align-items-center mt-2">
-        <a href="#">Skip for now</a>
-    </div>
-</div>
-
-<!-- Footer -->
-<div class="footer">
+<footer class="footer text-white mt-auto">
     <ul>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Developers</a></li>
-        <li><a href="index.php">Home</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/support">Support</a></li>
     </ul>
-</div>
+</footer>
 
 <script>
-    document.getElementById('cvUpload').addEventListener('change', function() {
-        const fileName = this.files[0]?.name || 'No file chosen';
-        document.getElementById('cvFileName').textContent = fileName;
+    document.querySelectorAll('.tag_button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            this.classList.toggle('selected');
+        });
+
+        const closeIcon = button.querySelector('.close-icon');
+        closeIcon.addEventListener('click', function(e) {
+            e.stopPropagation(); // prevent toggling twice
+            this.parentElement.classList.remove('selected');
+        });
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-function addPortfolioLink() {
-    const container = document.getElementById('portfolioLinks');
-    const currentCount = container.children.length;
-
-    const newLinkDiv = document.createElement('div');
-    newLinkDiv.className = 'd-flex mb-2 align-items-center';
-
-    const urlInput = document.createElement('input');
-    urlInput.type = 'url';
-    urlInput.name = `portfolioLinks[${currentCount}].url`;
-    urlInput.placeholder = 'https://example.com';
-    urlInput.className = 'form-control me-2';
-
-    const descInput = document.createElement('input');
-    descInput.type = 'text';
-    descInput.name = `portfolioLinks[${currentCount}].description`;
-    descInput.placeholder = 'Description';
-    descInput.className = 'form-control me-2';
-
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'btn btn-outline-danger btn-sm remove-portfolio-btn';
-    removeBtn.innerHTML = '<i class="fas fa-minus"></i>';
-    removeBtn.title = 'Remove this link';
-    removeBtn.onclick = function() {
-        container.removeChild(newLinkDiv);
-        updatePortfolioNames();
-        toggleRemoveButtons();
-    };
-
-    newLinkDiv.appendChild(urlInput);
-    newLinkDiv.appendChild(descInput);
-    newLinkDiv.appendChild(removeBtn);
-
-    container.appendChild(newLinkDiv);
-
-    updatePortfolioNames();
-    toggleRemoveButtons();
-}
-
-function removePortfolioLink(button) {
-    const container = document.getElementById('portfolioLinks');
-    const divToRemove = button.parentElement;
-    container.removeChild(divToRemove);
-    updatePortfolioNames();
-    toggleRemoveButtons();
-}
-
-function updatePortfolioNames() {
-    const container = document.getElementById('portfolioLinks');
-    const children = container.children;
-    for (let i = 0; i < children.length; i++) {
-        const inputs = children[i].querySelectorAll('input');
-        inputs[0].name = `portfolioLinks[${i}].url`;
-        inputs[1].name = `portfolioLinks[${i}].description`;
-    }
-}
-
-// This function will enable remove buttons only if there are 2 or more links
-function toggleRemoveButtons() {
-    const container = document.getElementById('portfolioLinks');
-    const removeButtons = container.querySelectorAll('.remove-portfolio-btn');
-    if (removeButtons.length <= 1) {
-        // Hide or disable all remove buttons if only one link
-        removeButtons.forEach(btn => btn.style.display = 'none');
-    } else {
-        // Show all remove buttons if 2 or more links
-        removeButtons.forEach(btn => btn.style.display = 'inline-block');
-    }
-}
-
-// Initial call to set button visibility on page load
-window.onload = toggleRemoveButtons;
-
-</script>
-
 
 </body>
 </html>

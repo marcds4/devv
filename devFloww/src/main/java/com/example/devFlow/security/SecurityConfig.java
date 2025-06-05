@@ -13,7 +13,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
             	.requestMatchers("/", "/images/**", "/css/**", "/js/**", "/webjars/**").permitAll()
-                .requestMatchers("/login","/create","/create_profile", "/create_project","/client_dashboard","/create_profile_dev", "/login_success","/success", "/login_info", "/register", "/signup", "/signup_info", "/check-email","/check-username","/check-email-login", "/check-password-login").permitAll() // Ensure all paths used for login flow are permitted
+                .requestMatchers("/projects","/login","/create","/create_profile", "/create_project","/client_dashboard","/create_profile_dev", "/login_success","/success", "/login_info", "/register", "/signup", "/signup_info", "/check-email","/check-username","/check-email-login", "/check-password-login").permitAll() // Ensure all paths used for login flow are permitted
                 .anyRequest().authenticated()
             )
 

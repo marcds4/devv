@@ -40,6 +40,10 @@ public class PageController {
         return "create_profile_dev";
     }
 
+    @GetMapping("/projects")
+    public String getProjects(){
+        return "projects";
+    }
     
 }
 
