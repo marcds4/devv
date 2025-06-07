@@ -34,16 +34,15 @@ public class PageController {
     public String success() {
         return "success";
     }
-    
+    @PostMapping("/success")
+public String successPost() {
+    return "success";
+}
     @GetMapping("/create_profile_dev")
     public String createProfileDev() {
         return "create_profile_dev";
     }
 
-    @GetMapping("/projects")
-    public String getProjects(){
-        return "projects";
-    }
     
 }
 

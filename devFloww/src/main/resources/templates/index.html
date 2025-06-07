@@ -197,7 +197,7 @@
 <div class="all_content">
 <div class="main_content">
 <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary navbar-dark bg-transparent pe-4 ps-4 pt-4">  <div class="container-fluid">
-    <a class="navbar-brand pe-2" href="#" style="color:white;">
+    <a class="navbar-brand pe-2"  style="color:white;">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-brilliance me-1" viewBox="0 0 16 16">
             <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7"/>
         </svg>
@@ -209,10 +209,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/projects}">Projects</a>
+                <a class="nav-link" href="/projects?is_private=0">Projects</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Developers</a>
+                <a class="nav-link" th:href="@{/project}">Developers</a>
             </li>
         </ul>
         <form class="d-flex me-3" role="search">
@@ -316,7 +316,7 @@
         <span>Or</span>
     </div>
     <div class="mb-2">
-        <a href="#" style="color:white">Browse without a profile</a>
+        <a href="/projects?is_private=0" style="color:white">Browse without a profile</a>
     </div>
 </div>
 </div>

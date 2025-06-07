@@ -1,11 +1,14 @@
 package com.example.devFlow.user;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.NaturalId;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Column;
 
 @Entity
@@ -21,13 +24,11 @@ public class User {
 	private String password;
 	private String role;
 	private boolean isEnabled=false;
-	
 	public User() {
 		
 	}
-	
 	public User(Long id, String username, String email, String password, String role,
-			boolean isEnabled) {
+		boolean isEnabled) {
 		super();
 		this.id = id;
 		this.username = username;

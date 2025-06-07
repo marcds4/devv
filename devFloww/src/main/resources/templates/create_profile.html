@@ -181,10 +181,8 @@
         </label>
     </div>
 
-    <!-- Form starts here -->
     <form th:action="@{/create}" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="userId" th:value="${userId}" />
-    <!-- First and Last Name -->
     <div style="display: flex; gap: 10px;">
         <div class="flex-fill mb-3">
             <label for="first_name" class="form-label">First Name</label>
@@ -196,7 +194,6 @@
         </div>
     </div>
 
-    <!-- Gender and Date of Birth -->
     <div style="display: flex; gap: 10px;">
         <div class="flex-fill mb-3">
             <label for="gender" class="form-label">Gender</label>
@@ -212,13 +209,11 @@
         </div>
     </div>
 
-    <!-- Description -->
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea id="description" name="description" th:text="${description}" class="form-control" rows="3" placeholder="Tell us a little about yourself..."></textarea>
     </div>
 
-    <!-- Client Link -->
     <div class="mb-3">
         <label for="link" class="form-label">Client Link</label>
         <input type="url" id="link" name="clientLink" th:value="${clientLink}" class="form-control" placeholder="https://example.com">
@@ -229,11 +224,10 @@
 
 
     <div class="d-flex justify-content-center align-items-center mt-2">
-        <a href="#">Skip for now</a>
+        <a th:href="@{/client_dashboard}">Skip for now</a>
     </div>
 </div>
 
-<!-- Footer -->
 <div class="footer">
     <ul>
         <li><a href="#">Projects</a></li>

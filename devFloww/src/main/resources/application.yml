@@ -4,13 +4,12 @@ spring:
     username: sql7783016
     password: mZGLA2VX53
     driver-class-name: com.mysql.cj.jdbc.Driver
-# Connection pool settings
     hikari:
-      minimum-idle: 5        # Minimum idle connections in the pool
-      maximum-pool-size: 10  # Max connections in the pool, adjust based on your DB limit
-      idle-timeout: 300000   # 5 minutes before idle connections are closed (ms)
-      max-lifetime: 1800000  # 30 minutes max lifetime of a connection (ms)
-      connection-timeout: 30000 # Max wait for a connection from the pool (ms)
+      minimum-idle: 5      
+      maximum-pool-size: 10  
+      idle-timeout: 300000   
+      max-lifetime: 1800000 
+      connection-timeout: 30000 
   jpa:
     hibernate:
       ddl-auto: update

@@ -3,6 +3,7 @@ package com.example.devFlow.project;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.devFlow.user.User;
@@ -33,11 +34,31 @@ public class Project {
 
     @Enumerated(EnumType.STRING)
     private ProjectSubcategory subcategory;
-
+	
+@Transient
+private String formattedDatePosted;
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
-
+	@Column(nullable = false, updatable = false)
+	private LocalDateTime datePosted;
     private Double maxPrice;
+	
+public String getFormattedDatePosted() {
+    return formattedDatePosted;
+}
+
+public void setFormattedDatePosted(String formattedDatePosted) {
+    this.formattedDatePosted = formattedDatePosted;
+}
+	@PrePersist
+	protected void onCreate() {
+		this.datePosted = java.time.LocalDateTime.now();
+	}
+
+	
+	public LocalDateTime getDatePosted() {
+		return datePosted;
+	}
 
     @Enumerated(EnumType.STRING)
     private EstimatedDuration estimatedDuration;
