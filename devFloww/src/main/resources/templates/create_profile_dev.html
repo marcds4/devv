@@ -213,7 +213,7 @@
         </label>
     </div>
 
-    <form th:action="@{/create}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/create_dev}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="userId" th:value="${userId}" />
         <div style="display: flex; gap: 10px;">
             <div class="flex-fill mb-3">
@@ -277,10 +277,11 @@
                 <button type="button" class="tag_button">TypeScript<span class="close-icon">&times;</span></button>
             </ul>
         </div>
+        <div id="skillsInputs"></div>
 
         <div class="mb-3">
             <label for="bio" class="form-label">About yourself</label>
-            <textarea id="bio" name="bio" placeholder="Add about yourself (optional)" class="form-control" rows="5" style="resize: none;"></textarea>
+            <textarea id="bio" name="description" placeholder="Add about yourself (optional)" class="form-control" rows="5" style="resize: none;"></textarea>
         </div>
 
         <button type="submit" class="btn btn-dark w-100">Create Profile</button>
@@ -296,6 +297,29 @@
 </footer>
 
 <script>
+     const skillsInputsContainer = document.getElementById('skillsInputs');
+    const skillsList = document.getElementById('skillsList');
+
+    skillsList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('tag_button')) {
+            const skill = e.target.textContent.trim();
+
+            // Αν υπάρχει hidden input για αυτό το skill, το αφαιρούμε
+            let existingInput = document.querySelector(`input[name="skills"][value="${skill}"]`);
+            if (existingInput) {
+                existingInput.remove();
+                e.target.classList.remove('selected'); // π.χ. αφαίρεσε κάποια κλάση css
+            } else {
+                // Δημιουργούμε νέο hidden input
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'skills';
+                input.value = skill;
+                skillsInputsContainer.appendChild(input);
+                e.target.classList.add('selected');
+            }
+        }
+    });
     const cvUpload = document.getElementById('cvUpload');
 const fileNameDisplay = document.getElementById('file-name');
 

@@ -47,10 +47,6 @@ public class PageController {
 public String successPost() {
     return "success";
 }
-    @GetMapping("/create_profile_dev")
-    public String createProfileDev() {
-        return "create_profile_dev";
-    }
 
     
 }
