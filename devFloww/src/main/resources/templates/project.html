@@ -140,10 +140,9 @@
             Maximum price: <span th:text="${project.maxPrice}">100</span>$ - <span style="font-style: italic;" th:text="${project.paymentMethod}">Hourly</span>
           </span>
         </div>
-        <p th:if="${session.isLoggedIn}">logged in</p>
 
-        <div th:if="${session.isLoggedIn}">
-          <p>Logged in - Button should show</p>
+        <div th:if="${session.isLoggedIn} and ${session.role} == 'developer'">
+
 
           <form th:action="@{/create_offer}" method="get">
             <button class="btn btn-primary"

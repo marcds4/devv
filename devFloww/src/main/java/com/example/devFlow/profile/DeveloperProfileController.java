@@ -69,6 +69,6 @@ public class DeveloperProfileController {
 
         developerProfileRepository.save(profile);
 
-        return "redirect:/client_dashboard?userId=" + userId;
+        return "redirect:/projects?userId=" + userId;
     }
 }
