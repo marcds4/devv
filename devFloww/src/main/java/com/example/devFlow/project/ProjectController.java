@@ -11,6 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.devFlow.user.User;
 import com.example.devFlow.user.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -112,25 +114,18 @@ public String listProjects(
 }
 
 
+@GetMapping("/projects/{id}")
+public String getProjectById(@PathVariable Long id, Model model) {
+    System.out.println("Fetching project with id: " + id);
+    var projectOpt = projectService.findById(id);
+    if (projectOpt.isPresent()) {
+        model.addAttribute("project", projectOpt.get());
+        return "project";
 
-    @GetMapping("/projects/{id}")
-    public String getProjectById(@PathVariable Long id, Model model) {
-        System.out.println("Fetching project with id: " + id);
-        var projectOpt = projectService.findById(id);
-        if (projectOpt.isPresent()) {
-            model.addAttribute("project", projectOpt.get());
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            boolean loggedIn = authentication != null &&
-                    authentication.isAuthenticated() &&
-                    !(authentication.getPrincipal() instanceof String &&
-                            authentication.getPrincipal().equals("anonymousUser"));
-
-            model.addAttribute("isLoggedIn", loggedIn);
-            return "project";
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
-        }
+    } else {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
     }
+}
+
 
 }

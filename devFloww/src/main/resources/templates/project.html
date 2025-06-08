@@ -88,7 +88,7 @@
             <input id="projectSearch" class="form-control" type="search" placeholder="Search for projects..." aria-label="Search"
                    style="font-size:0.8rem;border-radius: 5px 0 0 5px;height:4.5vh;width:13vw;" />
           </div>
-          <div class="dropdown d-flex align-items-center ms-4">
+          <div class="dropdown d-flex align-items-center ms-4" th:if="${session.isLoggedIn}">
             <a class="nav-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img  width="40" height="40" class="rounded-circle"/>
             </a>
@@ -140,18 +140,27 @@
             Maximum price: <span th:text="${project.maxPrice}">100</span>$ - <span style="font-style: italic;" th:text="${project.paymentMethod}">Hourly</span>
           </span>
         </div>
+        <p th:if="${session.isLoggedIn}">logged in</p>
 
-        <div sec:authorize="isAuthenticated()">
-        </div>
-        
-        <div sec:authorize="!isAuthenticated()">
-            <form th:action="@{/register}" method="get">
+        <div th:if="${session.isLoggedIn}">
+          <p>Logged in - Button should show</p>
+
+          <form th:action="@{/create_offer}" method="get">
             <button class="btn btn-primary"
                     style="padding: 0.5vh 3vw; margin-top: 2vh; font-weight: bold;">
                 Offer
             </button>
             </form>
         </div>
+        
+        <div th:if="${session.isLoggedIn == false}">
+          <form th:action="@{/register}" method="get">
+          <button class="btn btn-primary"
+                  style="padding: 0.5vh 3vw; margin-top: 2vh; font-weight: bold;">
+              Offer
+          </button>
+          </form>
+      </div>
           
       </div>
     </div>

@@ -12,6 +12,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByTitleContainingIgnoreCase(String title);
     List<Project> findByIsPrivate(boolean isPrivate);
     List<Project> findByTitleContainingIgnoreCaseAndIsPrivate(String title, boolean isPrivate);
+    List<Project> findByUserId(Long userId);
 
 
 

@@ -59,12 +59,14 @@ public String checkUsername(@ModelAttribute RegistrationRequest registrationRequ
     session.setAttribute("username", savedUser.getUsername());
     session.setAttribute("role", savedUser.getRole());
     session.setAttribute("isLoggedIn", true);
+    session.setAttribute("userId", savedUser.getId());
+
 
     // 🔍 Debug
     System.out.println("Registered and set session:");
     System.out.println(" - Username: " + savedUser.getUsername());
     System.out.println(" - Role: " + savedUser.getRole());
-
+    System.out.println(" - Id: " + savedUser.getId());
     // ✅ Redirect αναλόγως ρόλου
     if ("client".equalsIgnoreCase(registrationRequest.role())) {
         return "redirect:/create_profile?userId=" + savedUser.getId();
