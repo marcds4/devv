@@ -80,29 +80,23 @@ public String listProjects(
 
     Boolean isPrivate = null;
     if (isPrivateParam != null) {
-        // Convert 0/1 to boolean
         isPrivate = (isPrivateParam == 1);
     }
 
     if (query != null && !query.isBlank()) {
         if (isPrivate != null) {
-            // Filter by query AND isPrivate
             projects = projectRepository.findByTitleContainingIgnoreCaseAndIsPrivate(query, isPrivate);
         } else {
-            // Filter by query only
             projects = projectRepository.findByTitleContainingIgnoreCase(query);
         }
     } else {
         if (isPrivate != null) {
-            // Filter by isPrivate only
             projects = projectRepository.findByIsPrivate(isPrivate);
         } else {
-            // No filters, get all projects
             projects = projectRepository.findAll();
         }
     }
 
-    // Format datePosted for each project
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     projects.forEach(project -> {
         if (project.getDatePosted() != null) {
@@ -110,19 +104,13 @@ public String listProjects(
         }
     });
 
-    // Get Authentication object to check if user is logged in
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    boolean isLoggedIn = auth != null && auth.isAuthenticated() &&
-                         !(auth.getPrincipal() instanceof String && auth.getPrincipal().equals("anonymousUser"));
-
-    model.addAttribute("isLoggedIn", isLoggedIn);
-
     model.addAttribute("projects", projects);
     model.addAttribute("query", query);
     model.addAttribute("is_private", isPrivateParam);
 
     return "projects";
 }
+
 
 
     @GetMapping("/projects/{id}")

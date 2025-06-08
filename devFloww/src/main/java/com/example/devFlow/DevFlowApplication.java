@@ -15,7 +15,7 @@ public class DevFlowApplication implements WebServerFactoryCustomizer<Configurab
 
 	@Override
     public void customize(ConfigurableWebServerFactory factory) {
-        factory.setPort(8082);
+        factory.setPort(8083);
     }
 
 }

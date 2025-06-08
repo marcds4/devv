@@ -2,6 +2,8 @@ package com.example.devFlow.registration;
 
 import com.example.devFlow.user.User;
 import com.example.devFlow.user.UserService;
+
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,29 +36,44 @@ public class EmailCheckController {
     }
     
     @PostMapping("/check-username")
-    public String checkUsername(@ModelAttribute RegistrationRequest registrationRequest, Model model) {
-        if (userService.findByUsername(registrationRequest.username()).isPresent()) {
-            model.addAttribute("error", "Username already registered.");
-            model.addAttribute("registrationRequest", registrationRequest);
-            return "signup_info";
-        }
+public String checkUsername(@ModelAttribute RegistrationRequest registrationRequest,
+                            Model model,
+                            HttpSession session) {
 
-        if (registrationRequest.password() == null || registrationRequest.password().length() < 6) {
-            model.addAttribute("passwordError", "Password must be at least 6 characters.");
-            model.addAttribute("registrationRequest", registrationRequest);
-            return "signup_info";
-        }
-
-        User savedUser = userService.registerUserDetails(registrationRequest);
-
-        if ("client".equalsIgnoreCase(registrationRequest.role())) {
-            return "redirect:/create_profile?userId=" + savedUser.getId();
-        } else if ("developer".equalsIgnoreCase(registrationRequest.role())) {
-            return "redirect:/create_profile_dev?userId=" + savedUser.getId();
-        }
-
-        return "redirect:/";
+    if (userService.findByUsername(registrationRequest.username()).isPresent()) {
+        model.addAttribute("error", "Username already registered.");
+        model.addAttribute("registrationRequest", registrationRequest);
+        return "signup_info";
     }
+
+    if (registrationRequest.password() == null || registrationRequest.password().length() < 6) {
+        model.addAttribute("passwordError", "Password must be at least 6 characters.");
+        model.addAttribute("registrationRequest", registrationRequest);
+        return "signup_info";
+    }
+
+    // ✅ Εγγραφή χρήστη
+    User savedUser = userService.registerUserDetails(registrationRequest);
+
+    // ✅ Ορισμός session attributes για login state
+    session.setAttribute("username", savedUser.getUsername());
+    session.setAttribute("role", savedUser.getRole());
+    session.setAttribute("isLoggedIn", true);
+
+    // 🔍 Debug
+    System.out.println("Registered and set session:");
+    System.out.println(" - Username: " + savedUser.getUsername());
+    System.out.println(" - Role: " + savedUser.getRole());
+
+    // ✅ Redirect αναλόγως ρόλου
+    if ("client".equalsIgnoreCase(registrationRequest.role())) {
+        return "redirect:/create_profile?userId=" + savedUser.getId();
+    } else if ("developer".equalsIgnoreCase(registrationRequest.role())) {
+        return "redirect:/create_profile_dev?userId=" + savedUser.getId();
+    }
+
+    return "redirect:/";
+}
 
 
 
