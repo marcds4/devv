@@ -125,7 +125,10 @@
         <div style="font-size:0.9rem;">
           <span>Estimated Duration: </span><span th:text="${project.estimatedDuration}">&lt;1 week</span>
           <div style="margin-top: 1vh;">
-            <span class="tag-badge">Tag</span>
+            <span style="background-color: rgb(166, 132, 245); padding: 0.5vh 0.5vw; font-size: 0.7rem;
+                            border-radius: 50px; color: white; margin-right: 0.5vw;" th:text="${project.category}">Data Science</span>
+                          <span style="background-color: rgb(166, 132, 245); padding: 0.5vh 0.5vw; font-size: 0.7rem;
+                            border-radius: 50px; color: white;" th:text="${project.subcategory}">ELT</span>
           </div>
         </div>
 

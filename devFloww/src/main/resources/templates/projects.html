@@ -343,13 +343,22 @@
             <div class="row g-3">
               <div class="col-12 col-md-6" th:each="project : ${projects}">
                 <div class="card h-100">
-                  <div class="card-header d-flex align-items-center">
-                    <img src="prf.png" width="40" height="40" class="rounded-circle" />
-                    <div class="ms-2">
-                      <a href="#" style="text-decoration: none;" th:text="${project.user.username}">username</a>
-
-                    </div>
-                  </div>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img src="prf.png" width="40" height="40" class="rounded-circle" />
+                          <div class="ms-2">
+                            <a href="#" style="text-decoration: none;" th:text="${project.user.username}">username</a>
+                          </div>
+                        </div>
+                      
+                        <div>
+                          <span style="background-color: rgb(166, 132, 245); padding: 0.5vh 0.5vw; font-size: 0.7rem;
+                            border-radius: 50px; color: white; margin-right: 0.5vw;" th:text="${project.category}">Data Science</span>
+                          <span style="background-color: rgb(166, 132, 245); padding: 0.5vh 0.5vw; font-size: 0.7rem;
+                            border-radius: 50px; color: white;" th:text="${project.subcategory}">ELT</span>
+                        </div>
+                      </div>
+                      
           
                   <div class="card-body d-flex flex-column">
                     <h5 class="card-title" style="font-size: 1rem; font-weight: bold;" th:text="${project.title}">Project Title</h5>
