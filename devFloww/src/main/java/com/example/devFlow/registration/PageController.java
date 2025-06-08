@@ -7,12 +7,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class PageController {
 
     @GetMapping("/")
-    public String getIndex() {
+    public String getIndex(HttpSession session) {
+        session.invalidate();
         return "index";
+    }
+    @GetMapping("/custom_logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        System.out.println("✅ Session invalidated.");
+        return "index"; // δείχνει logout.html
     }
 
     
