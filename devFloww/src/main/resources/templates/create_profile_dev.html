@@ -238,11 +238,13 @@
             <div class="flex -fill">
                 <label for="cvUpload" class="form-label">Upload CV (.pdf)</label>
                 <input type="file" id="cvUpload" name="cvFile" accept="application/pdf" class="d-none">
-                <div>
+                <div style="display: flex; align-items: center; gap: 10px;">
                     <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('cvUpload').click()"  
-                    style="font-size: 0.7rem;">Upload CV</button>
+                        style="font-size: 0.7rem;">Upload CV</button>
+                    <span id="file-name" style="font-size: 0.8rem; color: #555;">No file chosen</span>
                 </div>
             </div>
+            
         </div>
 
         <div class="mt-3 mb-3">
@@ -294,6 +296,16 @@
 </footer>
 
 <script>
+    const cvUpload = document.getElementById('cvUpload');
+const fileNameDisplay = document.getElementById('file-name');
+
+cvUpload.addEventListener('change', () => {
+    if (cvUpload.files.length > 0) {
+        fileNameDisplay.textContent = cvUpload.files[0].name;
+    } else {
+        fileNameDisplay.textContent = 'No file chosen';
+    }
+});
     document.querySelectorAll('.tag_button').forEach(button => {
         button.addEventListener('click', function(e) {
             this.classList.toggle('selected');
