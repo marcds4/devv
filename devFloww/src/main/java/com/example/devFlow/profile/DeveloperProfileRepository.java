@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface DeveloperProfileRepository extends JpaRepository<DeveloperProfile, Long> {
     Optional<DeveloperProfile> findByUser(User user);
+    Optional<DeveloperProfile> findByUserUsername(String username);
+
 }

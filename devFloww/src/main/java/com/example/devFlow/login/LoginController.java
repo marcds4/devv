@@ -21,10 +21,10 @@ public class LoginController {
     }
 
     @GetMapping("/custom_login")
-public String showEmailForm(Model model) {
-    model.addAttribute("loginRequest", new LoginRequest());
-    return "login"; // returns login.html
-}
+    public String showEmailForm(Model model) {
+        model.addAttribute("loginRequest", new LoginRequest());
+        return "login"; 
+    }
 
     @PostMapping("/check-email-login")
     public String handleEmailSubmit(HttpServletRequest request, Model model) {
@@ -67,7 +67,6 @@ public String showEmailForm(Model model) {
             return "login_info";
         }
     
-        // ✅ Correct: Set session attributes after successful login
         session.setAttribute("username", user.getUsername());
         session.setAttribute("role", user.getRole());
         session.setAttribute("isLoggedIn", true);

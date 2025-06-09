@@ -19,7 +19,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByIsPrivate(boolean isPrivate);
     List<Project> findByUserId(Long userId);
 
-    // Custom query for filtering
     @Query("SELECT p FROM Project p " +
            "WHERE (:query IS NULL OR LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))) " +
            "AND (:category IS NULL OR p.category = :category) " +
@@ -30,5 +29,4 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         @Param("subcategory") ProjectSubcategory subcategory
     );
 
-    // Optional: filter by tags manually later in Java
 }

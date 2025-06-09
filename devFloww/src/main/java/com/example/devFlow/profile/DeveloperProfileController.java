@@ -78,22 +78,18 @@ public class DeveloperProfileController {
     }
     @GetMapping("/view_profile_dev")
     public String viewProfile(HttpSession session, Model model) {
-        // Retrieve userId from session
         Long userId = (Long) session.getAttribute("userId");
         
         if (userId == null) {
-            // Handle the case where userId is not in session (e.g., redirect to login)
             return "redirect:/login";
         }
         
         System.out.println("User id from session: " + userId);
         model.addAttribute("userId", userId);
     
-        // Retrieve user from repository (assuming using Spring Data JPA)
         Optional<User> optionalUser = userRepository.findById(userId);
         
         if (!optionalUser.isPresent()) {
-            // Handle user not found, e.g., redirect or show error page
             return "redirect:/login"; // or another appropriate page
         }
         
@@ -102,13 +98,11 @@ public class DeveloperProfileController {
         Optional<DeveloperProfile> optionalProfile = developerProfileRepository.findByUser(user);
     
         if (!optionalProfile.isPresent()) {
-            // Handle profile not found, maybe redirect or show an error
             return "redirect:/create_profile_dev"; // or an appropriate page
         }
         
         DeveloperProfile profile = optionalProfile.get();
         
-        // Pass the profile to the view
         model.addAttribute("profile", profile);
         return "view_profile_dev";
     }
@@ -123,13 +117,11 @@ public String updateDeveloperProfile(
         @RequestParam(value = "cvFile", required = false) MultipartFile cvFile,
         HttpSession session, Model model) {
 
-    // Retrieve userId from session
     Long userId = (Long) session.getAttribute("userId");
     if (userId == null) {
         return "redirect:/login"; // User not logged in
     }
 
-    // Retrieve user and developer profile
     Optional<User> optionalUser = userRepository.findById(userId);
     if (!optionalUser.isPresent()) {
         return "redirect:/login"; // User not found
@@ -138,23 +130,19 @@ public String updateDeveloperProfile(
 
     Optional<DeveloperProfile> optionalProfile = developerProfileRepository.findByUser(user);
     if (!optionalProfile.isPresent()) {
-        // Handle if profile not found, maybe create one
         return "redirect:/create_profile_dev?userId=" + userId;
     }
     DeveloperProfile profile = optionalProfile.get();
 
-    // Update user email and username
     user.setEmail(email);
     user.setUsername(username);
     userRepository.save(user);
 
-    // Update profile fields
     profile.setFirstName(firstName);
     profile.setLastName(lastName);
     profile.setDescription(description);
     profile.setSkills(skills);
 
-    // Handle CV file upload
     if (cvFile != null && !cvFile.isEmpty()) {
         try {
             String projectDir = System.getProperty("user.dir");
@@ -170,20 +158,17 @@ public String updateDeveloperProfile(
             File dest = new File(filePath);
             cvFile.transferTo(dest);
 
-            // Store relative or absolute path as needed
             profile.setCvFileName(filePath);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle file upload error, possibly add a message to the model
             model.addAttribute("error", "Failed to upload CV file.");
-            return "view_profile_dev"; // or appropriate view
+            return "view_profile_dev";
         }
     }
 
-    // Save profile
     developerProfileRepository.save(profile);
 
-    return "redirect:/view_profile_dev"; // redirect to profile view
+    return "redirect:/view_profile_dev";
 }
 
 @GetMapping("/developers")

@@ -97,7 +97,6 @@ public class ProjectController {
             projects.removeIf(project -> project.isPrivate() != finalIsPrivate);
         }
     
-        // Φιλτράρισμα για tags
         if (tagsParam != null && !tagsParam.isBlank()) {
             List<String> tags = List.of(tagsParam.split(","));
             projects.removeIf(project ->
@@ -106,7 +105,6 @@ public class ProjectController {
             );
         }
     
-        // Φιλτράρισμα για ημερομηνία
         if (dateFilter != null) {
             LocalDateTime now = LocalDateTime.now();
             switch (dateFilter) {
@@ -122,7 +120,6 @@ public class ProjectController {
             }
         }
     
-        // Format date for view
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         projects.forEach(project -> {
             if (project.getDatePosted() != null) {

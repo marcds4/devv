@@ -16,22 +16,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests(auth -> auth
-                .requestMatchers(
-                    "/","/notifications","/custom_login","/developers", "/clients","/create_comment","/update_profile_dev","view_profile_dev","/update_profile","/create_offer", "/images/**", "/css/**", "/js/**", "/webjars/**",
-                    "/project", "/custom_logout", "/projects", "/projects/**", "/create","/create_dev", "/create_profile",
-                    "/create_project", "/client_dashboard", "/create_profile_dev", "/login_success", "/success",
-                    "/login_info","view_profile", "/register", "/signup", "/signup_info", "/check-email", "/check-username",
-                    "/check-email-login", "/check-password-login","index","/view_client_profile","/profile/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin().disable()
-            .logout(logout -> logout.disable());
-        // ❌ ΜΗΝ ΠΡΟΣΘΕΤΕΙΣ .logout(...) ΑΦΟΥ ΧΡΗΣΙΜΟΠΟΙΕΙΣ ΔΙΚΟ ΣΟΥ CONTROLLER
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf().disable() // temporarily disable CSRF for testing
+        .authorizeRequests(auth -> auth
+            .requestMatchers(
+                "/", "/notifications", "/custom_login", "/developers", "/clients",
+                "/create_comment", "/update_profile_dev", "/view_profile_dev", "/update_profile", "/create_offer",
+                "/images/**", "/css/**", "/js/**", "/webjars/**",
+                "/project", "/custom_logout", "/projects", "/projects/**", "/create", "/create_dev", "/create_profile",
+                "/create_project", "/client_dashboard", "/create_profile_dev", "/login_success", "/success",
+                "/login_info", "/view_profile", "/register", "/signup", "/signup_info", "/check-email", "/check-username",
+                "/check-email-login", "/check-password-login", "/index", "/view_client_profile", "/view_developer_profile",
+                "/profile/**", "/devprofile/**"
+            ).permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin().disable()
+        .logout(logout -> logout.disable());
 
-        return http.build();
-    }
+    return http.build();
+}
+
 }

@@ -31,9 +31,9 @@ public class DeveloperProfileService {
         profile.setLastName(request.lastName());
         profile.setGender(request.gender());
         profile.setDescription(request.description());
-        profile.setSkills(request.skills());  // Assign the skills list
-        profile.setCvFileName(request.cvFileName());  // Optional
-        profile.setProfileImage(request.profileImage());  // Default
+        profile.setSkills(request.skills());  
+        profile.setCvFileName(request.cvFileName());
+        profile.setProfileImage(request.profileImage()); 
 
         return developerProfileRepository.save(profile);
     }

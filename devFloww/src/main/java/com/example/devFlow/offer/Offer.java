@@ -12,14 +12,12 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Συσχέτιση με τον χρήστη που έκανε την προσφορά
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     private String description;
 
-    // Όνομα αρχείου που ανέβηκε (π.χ. PDF)
     private String fileName;
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -28,10 +26,9 @@ public class Offer {
     private Timestamp createdAt;
 
     public Offer() {
-        this.createdAt = new Timestamp(System.currentTimeMillis()); // σωστό initialization
+        this.createdAt = new Timestamp(System.currentTimeMillis()); 
     }
 
-    // --- Getters & Setters ---
 
     public Long getId() { return id; }
 

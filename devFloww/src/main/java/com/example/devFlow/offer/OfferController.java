@@ -78,10 +78,9 @@ public class OfferController {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                return "error"; // Show error page on failure
+                return "error"; 
             }
         } else {
-            // Handle case when no file is uploaded
             Offer offer = new Offer();
             offer.setUser(user);
             offer.setDescription(description);

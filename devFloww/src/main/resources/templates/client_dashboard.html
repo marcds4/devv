@@ -572,7 +572,6 @@ const visibilityLabel = document.getElementById("visibilityLabel");
 const visibilityIcon = document.getElementById("visibilityIcon");
 const isPrivateHidden = document.getElementById("isPrivateHidden");
   if (projectPrivateCheckbox.checked) {
-    // Remove hidden fallback input so only "1" is submitted
     if (isPrivateHidden) {
       isPrivateHidden.remove();
     }
@@ -583,7 +582,6 @@ const isPrivateHidden = document.getElementById("isPrivateHidden");
       </svg>`;
     visibilityLabel.textContent = "Private";
   } else {
-    // Reinsert hidden input to submit 0
     if (!document.getElementById("isPrivateHidden")) {
       const hiddenInput = document.createElement("input");
       hiddenInput.type = "hidden";

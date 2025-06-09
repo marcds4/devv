@@ -406,27 +406,22 @@
 </div>
 <script>
     document.getElementById("applyFiltersBtn").addEventListener("click", function () {
-  // Get selected date (radio button)
   const dateFilter = document.querySelector('input[name="featuredOptions"]:checked')?.value;
 
-  // Get selected category and subcategory
   const category = document.getElementById("categorySelect").value;
   const subcategory = document.getElementById("subcategorySelect").value;
 
-  // Get selected tags (button with .tag_button clicked)
   const selectedTags = [];
   document.querySelectorAll(".tag_button.active").forEach(btn => {
     selectedTags.push(btn.innerText.trim());
   });
 
-  // Build URL query string
   const params = new URLSearchParams();
   if (dateFilter) params.append("date", dateFilter);
   if (category && category !== "Choose category...") params.append("category", category);
   if (subcategory && subcategory !== "Choose subcategory...") params.append("subcategory", subcategory);
   if (selectedTags.length > 0) params.append("tags", selectedTags.join(","));
 
-  // Redirect with query parameters (to trigger filtered Spring Boot controller)
   window.location.href = "/projects?" + params.toString();
 });
     document.querySelectorAll('.tag_button').forEach(button => {
