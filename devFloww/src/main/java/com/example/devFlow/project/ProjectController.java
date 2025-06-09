@@ -159,5 +159,9 @@ public String getProjectById(@PathVariable Long id, Model model) {
     }
 }
 
+    @GetMapping("/notifications")
+    public String getNotifications() {
+        return "notifications";
+    }
 
 }
