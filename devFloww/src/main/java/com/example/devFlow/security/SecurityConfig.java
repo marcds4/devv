@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
             .authorizeRequests(auth -> auth
                 .requestMatchers(
-                    "/","/notifications","/login","/developers", "/clients","/create_comment","/update_profile_dev","view_profile_dev","/update_profile","/create_offer", "/images/**", "/css/**", "/js/**", "/webjars/**",
+                    "/","/notifications","/custom_login","/developers", "/clients","/create_comment","/update_profile_dev","view_profile_dev","/update_profile","/create_offer", "/images/**", "/css/**", "/js/**", "/webjars/**",
                     "/project", "/custom_logout", "/projects", "/projects/**", "/create","/create_dev", "/create_profile",
                     "/create_project", "/client_dashboard", "/create_profile_dev", "/login_success", "/success",
                     "/login_info","view_profile", "/register", "/signup", "/signup_info", "/check-email", "/check-username",
