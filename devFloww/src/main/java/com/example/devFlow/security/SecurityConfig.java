@@ -20,17 +20,15 @@ public class SecurityConfig {
         http
             .authorizeRequests(auth -> auth
                 .requestMatchers(
-                    "/","/notifications","/developers", "/clients","/create_comment","/update_profile_dev","view_profile_dev","/update_profile","/create_offer", "/images/**", "/css/**", "/js/**", "/webjars/**",
-                    "/project", "/custom_logout", "/projects", "/projects/**", "/login", "/create","/create_dev", "/create_profile",
+                    "/","/notifications","/login","/developers", "/clients","/create_comment","/update_profile_dev","view_profile_dev","/update_profile","/create_offer", "/images/**", "/css/**", "/js/**", "/webjars/**",
+                    "/project", "/custom_logout", "/projects", "/projects/**", "/create","/create_dev", "/create_profile",
                     "/create_project", "/client_dashboard", "/create_profile_dev", "/login_success", "/success",
                     "/login_info","view_profile", "/register", "/signup", "/signup_info", "/check-email", "/check-username",
-                    "/check-email-login", "/check-password-login"
+                    "/check-email-login", "/check-password-login","index"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
-            .formLogin(form -> form
-                .loginPage("/login").permitAll()
-            )
+            .formLogin().disable()
             .logout(logout -> logout.disable());
         // ❌ ΜΗΝ ΠΡΟΣΘΕΤΕΙΣ .logout(...) ΑΦΟΥ ΧΡΗΣΙΜΟΠΟΙΕΙΣ ΔΙΚΟ ΣΟΥ CONTROLLER
 

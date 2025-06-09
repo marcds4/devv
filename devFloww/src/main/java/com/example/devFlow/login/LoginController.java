@@ -1,31 +1,28 @@
 package com.example.devFlow.login;
 
+import com.example.devFlow.user.UserService;
+import com.example.devFlow.user.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.devFlow.user.UserService;
-
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 public class LoginController {
 
-   /*  private final UserService userService;
+    private final UserService userService;
 
     public LoginController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/login")
-    public String showEmailForm(Model model) {
-        model.addAttribute("loginRequest", new LoginRequest());
-        System.out.println("new");
-        return "login";
-    }
+public String showEmailForm(Model model) {
+    model.addAttribute("loginRequest", new LoginRequest());
+    return "login"; // returns login.html
+}
 
     @PostMapping("/check-email-login")
     public String handleEmailSubmit(HttpServletRequest request, Model model) {
@@ -33,9 +30,9 @@ public class LoginController {
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(email);
-        System.out.println("Set email");
 
-        if (!userService.findByEmail(email).isPresent()) {
+        Optional<User> optionalUser = userService.findByEmail(email);
+        if (optionalUser.isEmpty()) {
             model.addAttribute("emailError", "Email not found. Please register.");
             model.addAttribute("loginRequest", loginRequest);
             return "login";
@@ -44,24 +41,32 @@ public class LoginController {
         model.addAttribute("loginRequest", loginRequest);
         return "login_info";
     }
-    
+
     @PostMapping("/check-password-login")
-    public String handlePasswordSubmit(@ModelAttribute("loginRequest") LoginRequest loginRequest, Model model) {
+    public String handlePasswordSubmit(@ModelAttribute("loginRequest") LoginRequest loginRequest,
+                                       Model model,
+                                       HttpServletRequest request) {
+
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
-        var optionalUser = userService.findByEmail(email);
-        
-        var user = optionalUser.get();
-        System.out.println("Entered password: " + password);
-        System.out.println("Stored password: " + user.getPassword());
 
-        // Password validation should be done by Spring Security via CustomUserDetailsService
+        Optional<User> optionalUser = userService.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            model.addAttribute("emailError", "User not found.");
+            return "login";
+        }
+
+        User user = optionalUser.get();
+
         if (!userService.checkPassword(email, password)) {
             model.addAttribute("passwordError", "Incorrect password.");
             model.addAttribute("loginRequest", loginRequest);
             return "login_info";
         }
 
+        // Store user ID in session
+        request.getSession().setAttribute("userId", user.getId());
+
         return "login_success";
-    }*/
+    }
 }

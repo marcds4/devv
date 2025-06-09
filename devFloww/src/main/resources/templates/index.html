@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -223,7 +223,7 @@
             <button id="search_button" class="btn btn-outline-light me-2" type="submit">Search</button>
         </form>
         <!-- <?php if (!$isLoggedIn): ?> -->
-        <button id="sign_in" class="btn btn-outline-light me-2 sign" type="submit" onclick="window.location.href='login.php'">Sign in</button>
+        <a th:href="@{/login}">Sign in</a>
         <button id="sign_up" class="btn btn-outline-light sign" type="submit" onclick="window.location.href='/register'">Sign up</button>
         <!--  <?php endif; ?>-->
         <!-- <?php if ($isLoggedIn): ?>

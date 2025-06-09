@@ -72,15 +72,15 @@
       <h5 class="mb-0 flex-grow-1 text-center">Notifications</h5>
       <span class="me-2" style="visibility: hidden;">&#8592;</span> <!-- For centering -->
     </div>
-
-    <div class="notification notification-new-offer">
-      <strong>New offer</strong>
+  
+    <div th:if="${offers.size() == 0}" class="notification">
+      No new notifications.
     </div>
-    <div class="notification">dev1 - Project1</div>
-    <div class="notification">dev2 - Project2</div>
-    <div class="notification">New message from client</div>
-    <div class="notification">dev3 - Project3</div>
-    <div class="notification">Meeting at 3 PM</div>
+  
+    <div th:each="offer : ${offers}" class="notification notification-new-offer">
+      <strong>New offer:</strong>
+      <span th:text="${offer.user.username} + ' - ' + ${offer.project.title}"></span>
+    </div>
   </div>
 
   <!-- Bootstrap JS -->
