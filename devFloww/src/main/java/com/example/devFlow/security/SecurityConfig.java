@@ -24,7 +24,7 @@ public class SecurityConfig {
                     "/project", "/custom_logout", "/projects", "/projects/**", "/create","/create_dev", "/create_profile",
                     "/create_project", "/client_dashboard", "/create_profile_dev", "/login_success", "/success",
                     "/login_info","view_profile", "/register", "/signup", "/signup_info", "/check-email", "/check-username",
-                    "/check-email-login", "/check-password-login","index"
+                    "/check-email-login", "/check-password-login","index","/view_client_profile","/profile/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

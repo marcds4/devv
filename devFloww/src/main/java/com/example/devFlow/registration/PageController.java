@@ -1,17 +1,21 @@
 package com.example.devFlow.registration;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.devFlow.offer.Offer;
 import com.example.devFlow.offer.OfferRepository;
+import com.example.devFlow.profile.Profile;
+import com.example.devFlow.profile.ProfileRepository;
 import com.example.devFlow.project.Project;
 import com.example.devFlow.project.ProjectRepository;
 
@@ -19,12 +23,14 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PageController {
+    private final ProfileRepository profileRepository;
 
     private final ProjectRepository projectRepository;
     private final OfferRepository offerRepository;
-    public PageController(ProjectRepository projectRepository,OfferRepository offerRepository){
+    public PageController(ProjectRepository projectRepository,OfferRepository offerRepository,ProfileRepository profileRepository){
         this.projectRepository = projectRepository;
         this.offerRepository=offerRepository;
+        this.profileRepository=profileRepository;
     }
     @GetMapping("/")
     public String getIndex(HttpSession session) {
@@ -83,6 +89,21 @@ public String notifications(HttpSession session, Model model) {
     model.addAttribute("offers", offers);
 
     return "notifications";  // your notifications.html thymeleaf template
+}
+
+@GetMapping("/profile/{username}")
+public String showUserProfile(@PathVariable String username, Model model) {
+    Optional<Profile> profileOptional = profileRepository.findByUserUsername(username);
+
+    if (profileOptional.isEmpty()) {
+        return "redirect:/error";
+    }
+
+    Profile profile = profileOptional.get();
+    model.addAttribute("profile", profile);
+    model.addAttribute("user", profile.getUser());
+
+    return "view_client_profile"; // Your Thymeleaf view
 }
 
 
