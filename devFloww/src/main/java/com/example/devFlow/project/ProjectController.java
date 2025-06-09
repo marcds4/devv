@@ -13,6 +13,7 @@ import com.example.devFlow.user.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -73,45 +74,70 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-public String listProjects(
-        @RequestParam(name = "query", required = false) String query,
-        @RequestParam(name = "is_private", required = false) Integer isPrivateParam,
-        Model model) {
-
-    List<Project> projects;
-
-    Boolean isPrivate = null;
-    if (isPrivateParam != null) {
-        isPrivate = (isPrivateParam == 1);
+    public String listProjects(
+            @RequestParam(name = "query", required = false) String query,
+            @RequestParam(name = "is_private", required = false) Integer isPrivateParam,
+            @RequestParam(name = "category", required = false) ProjectCategory category,
+            @RequestParam(name = "subcategory", required = false) ProjectSubcategory subcategory,
+            @RequestParam(name = "tags", required = false) String tagsParam,
+            @RequestParam(name = "date", required = false) String dateFilter,
+            Model model) {
+    
+        List<Project> projects = projectRepository.filterProjects(
+            (query != null && !query.isBlank()) ? query : null,
+            category,
+            subcategory
+        );
+    
+        if (isPrivateParam != null) {
+            final boolean finalIsPrivate = (isPrivateParam == 1);
+            projects.removeIf(project -> project.isPrivate() != finalIsPrivate);
+        }
+    
+        // Φιλτράρισμα για tags
+        if (tagsParam != null && !tagsParam.isBlank()) {
+            List<String> tags = List.of(tagsParam.split(","));
+            projects.removeIf(project ->
+                project.getSuggestedTechnologies() == null ||
+                project.getSuggestedTechnologies().stream().noneMatch(tags::contains)
+            );
+        }
+    
+        // Φιλτράρισμα για ημερομηνία
+        if (dateFilter != null) {
+            LocalDateTime now = LocalDateTime.now();
+            switch (dateFilter) {
+                case "last24h":
+                    projects.removeIf(project -> project.getDatePosted() == null || project.getDatePosted().isBefore(now.minusHours(24)));
+                    break;
+                case "lastWeek":
+                    projects.removeIf(project -> project.getDatePosted() == null || project.getDatePosted().isBefore(now.minusDays(7)));
+                    break;
+                case "lastMonth":
+                    projects.removeIf(project -> project.getDatePosted() == null || project.getDatePosted().isBefore(now.minusDays(30)));
+                    break;
+            }
+        }
+    
+        // Format date for view
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        projects.forEach(project -> {
+            if (project.getDatePosted() != null) {
+                project.setFormattedDatePosted(project.getDatePosted().format(formatter));
+            }
+        });
+    
+        model.addAttribute("projects", projects);
+        model.addAttribute("query", query);
+        model.addAttribute("is_private", isPrivateParam);
+        model.addAttribute("category", category);
+        model.addAttribute("subcategory", subcategory);
+        model.addAttribute("selectedTags", tagsParam);
+        model.addAttribute("dateFilter", dateFilter);
+    
+        return "projects";
     }
-
-    if (query != null && !query.isBlank()) {
-        if (isPrivate != null) {
-            projects = projectRepository.findByTitleContainingIgnoreCaseAndIsPrivate(query, isPrivate);
-        } else {
-            projects = projectRepository.findByTitleContainingIgnoreCase(query);
-        }
-    } else {
-        if (isPrivate != null) {
-            projects = projectRepository.findByIsPrivate(isPrivate);
-        } else {
-            projects = projectRepository.findAll();
-        }
-    }
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    projects.forEach(project -> {
-        if (project.getDatePosted() != null) {
-            project.setFormattedDatePosted(project.getDatePosted().format(formatter));
-        }
-    });
-
-    model.addAttribute("projects", projects);
-    model.addAttribute("query", query);
-    model.addAttribute("is_private", isPrivateParam);
-
-    return "projects";
-}
+    
 
 
 @GetMapping("/projects/{id}")
