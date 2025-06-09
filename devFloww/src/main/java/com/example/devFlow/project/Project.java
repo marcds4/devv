@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.devFlow.offer.Offer;
 import com.example.devFlow.user.User;
 
 @Entity
@@ -28,6 +29,8 @@ public class Project {
     private boolean isPrivate;
 
     private boolean showDevPrice;
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	private List<Offer> offers;
 
     @Enumerated(EnumType.STRING)
     private ProjectCategory category;

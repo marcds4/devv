@@ -1,5 +1,7 @@
 package com.example.devFlow.offer;
 
+import com.example.devFlow.project.Project;
+import com.example.devFlow.project.ProjectRepository;
 import com.example.devFlow.user.User;
 import com.example.devFlow.user.UserRepository;
 
@@ -18,18 +20,20 @@ public class OfferController {
 
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
-
-    public OfferController(OfferRepository offerRepository, UserRepository userRepository) {
+    private final ProjectRepository projectRepository;
+    public OfferController(OfferRepository offerRepository, UserRepository userRepository,ProjectRepository projectRepository) {
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
+        this.projectRepository=projectRepository;
     }
 
     @GetMapping("/create_offer")
-    public String showOfferForm(HttpSession session, Model model) {
+    public String showOfferForm(@RequestParam("projectId") Long projectId,HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
             return "redirect:/login";
         }
+        model.addAttribute("projectId", projectId);
         model.addAttribute("userId", userId);
         return "offer";
     }
@@ -37,7 +41,7 @@ public class OfferController {
     @PostMapping("/create_offer")
     public String createOffer(HttpSession session,
                               @RequestParam("description") String description,
-                              @RequestParam("file") MultipartFile file) {
+                              @RequestParam("file") MultipartFile file, @RequestParam("projectId") Long projectId) {
 
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
@@ -45,6 +49,7 @@ public class OfferController {
         }
 
         User user = userRepository.findById(userId).orElseThrow();
+        Project project = projectRepository.findById(projectId).orElseThrow();
 
         if (file != null && !file.isEmpty()) {
             // Sanitize the filename to avoid path traversal issues
@@ -65,6 +70,8 @@ public class OfferController {
                 Offer offer = new Offer();
                 offer.setUser(user);
                 offer.setDescription(description);
+                offer.setProject(project);
+
                 offer.setFileName(fileName);
 
                 offerRepository.save(offer);
@@ -78,6 +85,7 @@ public class OfferController {
             Offer offer = new Offer();
             offer.setUser(user);
             offer.setDescription(description);
+            offer.setProject(project);
             offer.setFileName(null);
 
             offerRepository.save(offer);

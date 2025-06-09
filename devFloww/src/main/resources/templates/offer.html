@@ -156,8 +156,10 @@
   <div class="post-offer-section">
     <h2 class="section-title">Post an Offer</h2>
     <div class="post-offer-card">
-        <form th:action="@{/create_offer}" method="post" enctype="multipart/form-data">
-            <div class="mb-4 text-center">
+        <form id="offerForm" th:action="@{/create_offer}"  method="post" enctype="multipart/form-data">
+          <input type="hidden" name="projectId" th:value="${projectId}" />
+
+          <div class="mb-4 text-center">
             <h5 style="font-family: 'Poppins', sans-serif; font-weight:600;">Share an Opportunity or Request</h5>
             <p style="font-size: 0.9em; color: rgba(255,255,255,0.8);">Looking to collaborate or hire? Post your offer below!</p>
         </div>
@@ -239,7 +241,6 @@
 
   <script>
     document.getElementById('offerForm').addEventListener('submit', function(e) {
-      e.preventDefault();
 
       const text = document.getElementById('offerText').value;
       const imageInput = document.getElementById('offerImage');

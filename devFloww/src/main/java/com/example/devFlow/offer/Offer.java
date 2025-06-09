@@ -1,5 +1,6 @@
 package com.example.devFlow.offer;
 
+import com.example.devFlow.project.Project;
 import com.example.devFlow.user.User;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
@@ -20,7 +21,9 @@ public class Offer {
 
     // Όνομα αρχείου που ανέβηκε (π.χ. PDF)
     private String fileName;
-
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
     @Column(name = "created_at", columnDefinition = "datetime")
     private Timestamp createdAt;
 
@@ -43,4 +46,6 @@ public class Offer {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public Project getProject() { return project; }
+    public void setProject(Project project) { this.project = project; }
 }
