@@ -186,4 +186,11 @@ public String updateDeveloperProfile(
     return "redirect:/view_profile_dev"; // redirect to profile view
 }
 
+@GetMapping("/developers")
+public String showDevelopers(Model model) {
+    List<User> developers = userRepository.findByRole("developer");
+    model.addAttribute("developers", developers);
+    return "dev_profiles";
+}
+
 }

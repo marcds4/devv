@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -157,7 +158,12 @@ public class ProfileController {
         // Redirect to profile view page
         return "redirect:/view_profile";
     }
-    
+    @GetMapping("/clients")
+public String showDevelopers(Model model) {
+    List<User> clients = userRepository.findByRole("client");
+    model.addAttribute("clients", clients);
+    return "client_profiles";
+}
 
     
 
