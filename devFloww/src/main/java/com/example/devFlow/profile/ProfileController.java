@@ -92,6 +92,7 @@ public class ProfileController {
         model.addAttribute("profile", profile);
         return "view_profile";
     }
+    
     @PostMapping("/update_profile")
     public String updateProfile(@RequestParam("firstName") String firstName,
                                 @RequestParam("lastName") String lastName,

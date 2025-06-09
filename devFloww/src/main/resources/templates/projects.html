@@ -211,8 +211,13 @@
                         <li><a class="dropdown-item" href="#" style="color:#484747" th:text="${session.username}">username</a></li>
                         <li><a class="dropdown-item" href="#" style="color:#696868">Member since: 17/01/2004</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" th:href="@{/view_profile}" style="color:#696868">My Profile</a></li>
-                        <li><a class="dropdown-item" href="#" style="color:#696868">Notifications</a></li>
+                        <li>
+                            <a class="dropdown-item" 
+                               th:href="${session.role == 'developer'} ? @{/view_profile_dev} : @{/view_profile}" 
+                               style="color:#696868">
+                              My Profile
+                            </a>
+                          </li>                        <li><a class="dropdown-item" href="#" style="color:#696868">Notifications</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" th:href="@{/custom_logout}" style="color: red;">Log out
