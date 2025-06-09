@@ -474,18 +474,23 @@
     const projectCards = document.querySelectorAll('.col-12.col-md-6');
 
     searchInput.addEventListener('input', () => {
-      const filter = searchInput.value.trim().toLowerCase();
+        const filter = searchInput.value.trim().toLowerCase();
 
-      projectCards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        if (filter === "" || title.startsWith(filter)) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+        projectCards.forEach(card => {
+            const usernameElement = card.querySelector('.card-header a');
+            const descriptionElement = card.querySelector('.card-body p');
+
+            const username = usernameElement ? usernameElement.textContent.toLowerCase() : '';
+            const description = descriptionElement ? descriptionElement.textContent.toLowerCase() : '';
+
+            if (filter === "" || username.includes(filter) || description.includes(filter)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
     });
-  });
+});
     </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
