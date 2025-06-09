@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.devFlow.comment.Comment;
+import com.example.devFlow.comment.CommentRepository;
 import com.example.devFlow.user.User;
 import com.example.devFlow.user.UserRepository;
 
@@ -23,11 +25,12 @@ public class ProjectController {
     private final ProjectRepository projectRepository;
     private final ProjectService projectService;
     private final UserRepository userRepository;
-
-    public ProjectController(ProjectRepository projectRepository, UserRepository userRepository, ProjectService projectService) {
+    private final CommentRepository commentRepository;
+    public ProjectController(ProjectRepository projectRepository, UserRepository userRepository, ProjectService projectService,CommentRepository commentRepository) {
         this.projectService = projectService;
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
+        this.commentRepository=commentRepository;
     }
 
     @PostMapping("/create_project")
@@ -143,6 +146,9 @@ public class ProjectController {
 @GetMapping("/projects/{id}")
 public String getProjectById(@PathVariable Long id, Model model) {
     System.out.println("Fetching project with id: " + id);
+    List<Comment> comments = commentRepository.findByProjectId(id);  // assuming this method exists
+    model.addAttribute("comments", comments);
+
     var projectOpt = projectService.findById(id);
     if (projectOpt.isPresent()) {
         model.addAttribute("project", projectOpt.get());

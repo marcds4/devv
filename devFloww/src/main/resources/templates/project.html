@@ -88,9 +88,12 @@
       <label for="commentInput" class="form-label">Your Comment</label>
       <input type="text" id="commentInput" name="commentText" class="form-control" placeholder="Enter your comment..." />
 
-      <label for="commentTextarea" class="form-label mt-2">Comment Display</label>
-      <textarea id="commentTextarea" class="form-control" rows="4" readonly></textarea>
-
+      <label class="form-label mt-2">Comment Display</label>
+<div id="commentsContainer" class="comments-container">
+  <div th:each="comment : ${comments}" class="comment">
+    <strong th:text="${comment.username}">User</strong>: <span th:text="${comment.commentText}">Comment text</span>
+  </div>
+</div>
       <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
   </form>
 </div>

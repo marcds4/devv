@@ -22,14 +22,14 @@ public class CommentController {
     }
 
     @GetMapping("/create_comment")
-    public String showOfferForm(HttpSession session, Model model,@RequestParam("projectId") Long projectId) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login";
-        }
-        model.addAttribute("userId", userId);
-        return "redirect:/projects";
+public String showOfferForm(HttpSession session, Model model, @RequestParam("projectId") Long projectId) {
+    Long userId = (Long) session.getAttribute("userId");
+    if (userId == null) {
+        return "redirect:/login";
     }
+    model.addAttribute("userId", userId);
+    return "redirect:/projects/" + projectId;
+}
 
     @PostMapping("/create_comment")
     public String createComment(@RequestParam("projectId") Long projectId,
@@ -50,6 +50,6 @@ public class CommentController {
 
         commentRepository.save(comment);
 
-        return "redirect:/projects";
+        return "redirect:/projects/" + projectId;
     }
 }
