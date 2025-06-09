@@ -159,9 +159,9 @@ public class ProfileController {
         return "redirect:/view_profile";
     }
     @GetMapping("/clients")
-public String showDevelopers(Model model) {
-    List<User> clients = userRepository.findByRole("client");
-    model.addAttribute("clients", clients);
+public String showClients(Model model) {
+    List<Profile> clientProfiles = profileRepository.findAll();
+    model.addAttribute("clients", clientProfiles);
     return "client_profiles";
 }
 

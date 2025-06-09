@@ -353,13 +353,17 @@
                                 <div class="d-flex align-items-center">
                                     <img src="prf.png" width="40" height="40" class="rounded-circle" />
                                     <div class="ms-2">
-                                        <a href="#" style="text-decoration: none;" th:text="${client.username}">Username</a>
+                                        <a href="#" style="text-decoration: none;" th:text="${client.user.username}">Username</a>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="card-body">
+                                <p th:text="${client.description}">Client description goes here.</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
           </div>
           
